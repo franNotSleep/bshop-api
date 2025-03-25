@@ -10,6 +10,7 @@ import * as Joi from 'joi';
 import configuration from './configuration/configuration';
 import { APP_GUARD } from '@nestjs/core';
 import { JWTGuard } from './auth/guards/jwt.guard';
+import { RolesGuard } from './auth/guards/rbac.guard';
 
 @Module({
   imports: [
@@ -42,6 +43,10 @@ import { JWTGuard } from './auth/guards/jwt.guard';
     {
       provide: APP_GUARD,
       useClass: JWTGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

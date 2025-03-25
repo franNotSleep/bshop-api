@@ -22,7 +22,7 @@ export class User {
   @Column({ type: String })
   password: string;
 
-  @OneToMany(() => Profile, (p) => p.user)
+  @OneToMany(() => Profile, (p) => p.user, { eager: true })
   profiles: Profile[];
 
   @CreateDateColumn({ name: 'created_at' })

@@ -1,13 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ServicesService } from './services.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/user/entities/profile.entity';
 
 @Controller('services')
 export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}
 
   @Post()
+  @Roles(Role.PROVIDER)
   create(@Body() createServiceDto: CreateServiceDto) {
     return this.servicesService.create(createServiceDto);
   }
@@ -23,11 +34,13 @@ export class ServicesController {
   }
 
   @Patch(':id')
+  @Roles(Role.PROVIDER)
   update(@Param('id') id: string, @Body() updateServiceDto: UpdateServiceDto) {
     return this.servicesService.update(+id, updateServiceDto);
   }
 
   @Delete(':id')
+  @Roles(Role.PROVIDER)
   remove(@Param('id') id: string) {
     return this.servicesService.remove(+id);
   }
