@@ -8,6 +8,8 @@ import { AppointmentModule } from './appointment/appointment.module';
 import { ServicesModule } from './services/services.module';
 import * as Joi from 'joi';
 import configuration from './configuration/configuration';
+import { APP_GUARD } from '@nestjs/core';
+import { JWTGuard } from './auth/guards/jwt.guard';
 
 @Module({
   imports: [
@@ -35,6 +37,12 @@ import configuration from './configuration/configuration';
     InvoiceModule,
     AppointmentModule,
     ServicesModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JWTGuard,
+    },
   ],
 })
 export class AppModule {}
