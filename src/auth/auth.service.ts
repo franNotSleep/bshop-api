@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { SignUpDto } from './dto/signup.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
@@ -31,6 +35,10 @@ export class AuthService {
     }
 
     return this.generateTokens({ userId: user.id });
+  }
+
+  async refreshToken(userId: number) {
+    return this.generateTokens({ userId });
   }
 
   async createUser(dto: SignUpDto) {

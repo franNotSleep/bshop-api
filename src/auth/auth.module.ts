@@ -8,6 +8,7 @@ import { UserModule } from 'src/user/user.module';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JWTStrategy } from './strategies/jwt.strategy';
 import { PasswordService } from './password.service';
+import { JWTRefreshStrategy } from './strategies/jwt-refresh.strategy';
 
 @Module({
   imports: [
@@ -27,6 +28,12 @@ import { PasswordService } from './password.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JWTStrategy, PasswordService],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JWTStrategy,
+    PasswordService,
+    JWTRefreshStrategy,
+  ],
 })
 export class AuthModule {}
