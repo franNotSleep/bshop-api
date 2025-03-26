@@ -11,6 +11,7 @@ import configuration from './configuration/configuration';
 import { APP_GUARD } from '@nestjs/core';
 import { JWTGuard } from './auth/guards/jwt.guard';
 import { RolesGuard } from './auth/guards/rbac.guard';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { RolesGuard } from './auth/guards/rbac.guard';
     InvoiceModule,
     AppointmentModule,
     ServicesModule,
+    NotificationsModule,
   ],
   providers: [
     {

@@ -47,7 +47,14 @@ export class Invoice {
   @Column({ type: 'timestamp with time zone', name: 'paid_at' })
   paidAt: Date | null;
 
-  @Column({ type: 'timestamp with time zone', name: 'refunded_at' })
+  @Column({ type: Number, name: 'amount_paid' })
+  amountPaid: number;
+
+  @Column({
+    type: 'timestamp with time zone',
+    name: 'refunded_at',
+    nullable: true,
+  })
   refundedAt: Date | null;
 
   @CreateDateColumn({ name: 'created_at' })
