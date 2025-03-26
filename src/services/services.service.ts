@@ -30,6 +30,9 @@ export class ServicesService {
     const where = profileId ? { profile: { id: profileId } } : {};
     return this.servicesRepository.find({
       where,
+      relations: {
+        appointments: true,
+      },
     });
   }
 

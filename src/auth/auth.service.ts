@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { SignUpDto } from './dto/signup.dto';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import { PasswordService } from './password.service';
 import { ConfigService } from '@nestjs/config';
@@ -62,9 +62,11 @@ export class AuthService {
       refreshToken: this.generateRefreshToken(payload),
     };
   }
+
   private generateAccessToken(payload: { userId: number }) {
     return this.jwtService.sign(payload);
   }
+
   private generateRefreshToken(payload: { userId: number }) {
     const secret = this.configService.get('auth.jwtRefreshSecret', {
       infer: true,
@@ -72,6 +74,7 @@ export class AuthService {
     const expiresIn = this.configService.get('auth.jwtRefreshExpirationTime', {
       infer: true,
     });
+
     return this.jwtService.sign(payload, { secret, expiresIn });
   }
 }

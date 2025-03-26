@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   Req,
+  Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
@@ -14,6 +16,8 @@ import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/user/entities/profile.entity';
 import { RequestWithUser } from 'src/commons/types/req-with-user.type';
+import { ConfirmDto } from './dto/confirm.dto';
+import { FindDto } from './dto/find.dto';
 
 @Controller('appointment')
 export class AppointmentController {
@@ -32,8 +36,57 @@ export class AppointmentController {
   }
 
   @Get()
-  findAll() {
-    return this.appointmentService.findAll();
+  findAll(
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        transformOptions: { enableImplicitConversion: true },
+        forbidNonWhitelisted: true,
+      }),
+    )
+    dto: FindDto,
+    @Req() req: RequestWithUser,
+  ) {
+    return this.appointmentService.findAll(
+      dto.service_id,
+      req.user.profiles[0].id,
+    );
+  }
+
+  @Patch('confirm')
+  confirm(
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        transformOptions: { enableImplicitConversion: true },
+        forbidNonWhitelisted: true,
+      }),
+    )
+    dto: ConfirmDto,
+    @Req() req: RequestWithUser,
+  ) {
+    return this.appointmentService.confirm(
+      dto.appointment_id,
+      req.user.profiles[0],
+    );
+  }
+
+  @Patch('cancel')
+  cancel(
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        transformOptions: { enableImplicitConversion: true },
+        forbidNonWhitelisted: true,
+      }),
+    )
+    dto: ConfirmDto,
+    @Req() req: RequestWithUser,
+  ) {
+    return this.appointmentService.cancel(
+      dto.appointment_id,
+      req.user.profiles[0],
+    );
   }
 
   @Get(':id')
